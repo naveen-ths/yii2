@@ -30,9 +30,11 @@
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
-                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
-                    ['label' => 'Country', 'icon' => 'file-code-o', 'url' => ['/country/index']],
-                    ['label' => 'County', 'icon' => 'file-code-o', 'url' => ['/county/index']],
+                    ['label' => 'Dashboard', 'icon' => 'dashboard', 'url' => ['/']],
+                    ['label' => 'Posts', 'icon' => 'tasks', 'url' => ['/post/index']],
+                    ['label' => 'Category', 'icon' => 'tags', 'url' => ['/category/index']],
+                    ['label' => 'Country', 'icon' => 'list', 'url' => ['/country/index']],
+                    ['label' => 'County', 'icon' => 'map', 'url' => ['/county/index']],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [

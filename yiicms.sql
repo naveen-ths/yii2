@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 01, 2017 at 11:16 AM
+-- Generation Time: Nov 02, 2017 at 11:35 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -21,6 +21,23 @@ SET time_zone = "+00:00";
 --
 -- Database: `yiicms`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category`
+--
+
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `status` int(1) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -95,6 +112,45 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 ('m150623_212711_fix_username_notnull', 1505202337),
 ('m151218_234654_add_timezone_to_profile', 1505202337),
 ('m160929_103127_add_last_login_at_to_user_table', 1505202338);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `posts`
+--
+
+CREATE TABLE `posts` (
+  `id` int(11) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `excerpt` text NOT NULL,
+  `description` text NOT NULL,
+  `featured_image` varchar(255) NOT NULL,
+  `status` varchar(16) NOT NULL,
+  `published_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `posts`
+--
+
+INSERT INTO `posts` (`id`, `author_id`, `title`, `slug`, `excerpt`, `description`, `featured_image`, `status`, `published_at`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Test', 'test', 'Test test test test', 'Test test test test', 'uploads/dashboard.png', '1', '2017-10-31 12:00:00', '2017-11-02 10:35:03', '2017-11-02 10:56:03');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `post_to_category`
+--
+
+CREATE TABLE `post_to_category` (
+  `id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -179,11 +235,17 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `auth_key`, `confirmed_at`, `unconfirmed_email`, `blocked_at`, `registration_ip`, `created_at`, `updated_at`, `flags`, `last_login_at`) VALUES
-(1, 'naveen', 'naveen@mail.com', '$2y$10$L6ahkAKp4WCrV7rMFLAfnei60w6EYZ83nnQxFNl3QK.GzUkXc4r9q', '3VSx_vjGVLMyPJVxEp6lEfixsHSnPm3p', 1509090326, NULL, NULL, '::1', 1505207596, 1505207596, 0, 1509514434);
+(1, 'naveen', 'naveen@mail.com', '$2y$10$L6ahkAKp4WCrV7rMFLAfnei60w6EYZ83nnQxFNl3QK.GzUkXc4r9q', '3VSx_vjGVLMyPJVxEp6lEfixsHSnPm3p', 1509090326, NULL, NULL, '::1', 1505207596, 1505207596, 0, 1509601067);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `country`
@@ -203,6 +265,21 @@ ALTER TABLE `county`
 --
 ALTER TABLE `migration`
   ADD PRIMARY KEY (`version`);
+
+--
+-- Indexes for table `posts`
+--
+ALTER TABLE `posts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `author_id` (`author_id`);
+
+--
+-- Indexes for table `post_to_category`
+--
+ALTER TABLE `post_to_category`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `post_id` (`post_id`),
+  ADD KEY `category_id` (`category_id`);
 
 --
 -- Indexes for table `profile`
@@ -238,6 +315,11 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `category`
+--
+ALTER TABLE `category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `country`
 --
 ALTER TABLE `country`
@@ -247,6 +329,16 @@ ALTER TABLE `country`
 --
 ALTER TABLE `county`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `post_to_category`
+--
+ALTER TABLE `post_to_category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `social_account`
 --
@@ -266,6 +358,13 @@ ALTER TABLE `user`
 --
 ALTER TABLE `county`
   ADD CONSTRAINT `country_county` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `post_to_category`
+--
+ALTER TABLE `post_to_category`
+  ADD CONSTRAINT `post_to_category_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `post_to_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `profile`
