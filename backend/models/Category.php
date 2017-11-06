@@ -20,6 +20,7 @@ use Yii;
  */
 class Category extends \yii\db\ActiveRecord
 {
+    public $cat_image;
     /**
      * @inheritdoc
      */
@@ -34,11 +35,12 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'image', 'description', 'parent_id', 'status', 'created_at', 'updated_at'], 'required'],
+            [['name', 'description'], 'required'],
             [['description'], 'string'],
             [['parent_id', 'status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['name', 'image'], 'string', 'max' => 255],
+            [['name'], 'string', 'max' => 255],
+            [['cat_image'], 'file', 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -52,7 +54,7 @@ class Category extends \yii\db\ActiveRecord
             'name' => 'Name',
             'image' => 'Image',
             'description' => 'Description',
-            'parent_id' => 'Parent ID',
+            'parent_id' => 'Parent Category',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
@@ -65,5 +67,10 @@ class Category extends \yii\db\ActiveRecord
     public function getPostToCategories()
     {
         return $this->hasMany(PostToCategory::className(), ['category_id' => 'id']);
+    }
+    
+    public function getImageurl()
+    {
+    return \Yii::$app->request->BaseUrl.$this->image;
     }
 }

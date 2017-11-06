@@ -8,6 +8,7 @@ use app\models\CategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * CategoryController implements the CRUD actions for Category model.
@@ -39,8 +40,8 @@ class CategoryController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -52,7 +53,7 @@ class CategoryController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -64,13 +65,26 @@ class CategoryController extends Controller
     public function actionCreate()
     {
         $model = new Category();
+        
+        $categories = Category::find()->orderBy("id")->all();
+        if ($categories === null) {
+            throw new NotFoundHttpException;
+        }
+        $category = array();
+        foreach ($categories as $key => $category) {
+            $category[$key]['id'] = $category->id;
+            $category[$key]['name'] = $category->name;
+        }
+        
+        $this->handleImageSave($model);
         $model->created_at = date('Y-m-d H:i:s');
         $model->updated_at = date('Y-m-d H:i:s');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
+                        'categories' => $category,
             ]);
         }
     }
@@ -84,12 +98,13 @@ class CategoryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $this->handleImageSave($model);
         $model->updated_at = date('Y-m-d H:i:s');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -122,4 +137,25 @@ class CategoryController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    protected function handleImageSave(Category $model)
+    {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->cat_image = UploadedFile::getInstance($model, 'cat_image');
+
+            if ($model->validate()) {
+                if ($model->cat_image) {
+                    $filePath = 'uploads/' . $model->cat_image->baseName . '.' . $model->cat_image->extension;
+                    if ($model->cat_image->saveAs($filePath)) {
+                        $model->image = $filePath;
+                    }
+                }
+
+                if ($model->save(false)) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
+        }
+    }
+
 }
