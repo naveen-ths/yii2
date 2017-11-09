@@ -41,7 +41,6 @@ class Post extends \yii\db\ActiveRecord
         return [
             [['title', 'slug','status', 'published_at'], 'required'],
             [['author_id'], 'integer'],
-            [['category_id'], 'integer'],
             [['excerpt', 'description'], 'string'],
             [['published_at', 'created_at', 'updated_at'], 'safe'],
             [['title', 'slug'], 'string', 'max' => 255],
