@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use Yii;
 use app\models\Post;
+use app\models\Category;
+use app\models\PostCategory;
 use app\models\PostSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -65,12 +67,18 @@ class PostController extends Controller
     public function actionCreate()
     {
         $model = new Post();
+        $category_post = new PostCategory();
+        
         $this->handlePostSave($model);
         $identity = Yii::$app->user->identity;
         $model->author_id = $identity->id;
+        $model->published_at = date('Y-m-d H:i:s');
         $model->created_at = date('Y-m-d H:i:s');
         $model->updated_at = date('Y-m-d H:i:s');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $category_post->post_id = $model->id;
+            $category_post->category_id = $model->category_id;
+            $category_post->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
