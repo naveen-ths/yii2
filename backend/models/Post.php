@@ -24,7 +24,6 @@ use Yii;
 class Post extends \yii\db\ActiveRecord
 {
     public $upload;
-    public $category_id;
     /**
      * @inheritdoc
      */
@@ -32,7 +31,7 @@ class Post extends \yii\db\ActiveRecord
     {
         return 'posts';
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -41,7 +40,6 @@ class Post extends \yii\db\ActiveRecord
         return [
             [['title', 'slug','status', 'published_at'], 'required'],
             [['author_id'], 'integer'],
-            [['category_id'], 'integer'],
             [['excerpt', 'description'], 'string'],
             [['published_at', 'created_at', 'updated_at'], 'safe'],
             [['title', 'slug'], 'string', 'max' => 255],
@@ -60,7 +58,6 @@ class Post extends \yii\db\ActiveRecord
             'author_id' => 'Author ID',
             'title' => 'Title',
             'slug' => 'Slug',
-            'category_id' => 'Category',
             'excerpt' => 'Excerpt',
             'description' => 'Description',
             'featured_image' => 'Featured Image',
@@ -79,13 +76,8 @@ class Post extends \yii\db\ActiveRecord
         return $this->hasMany(PostToCategory::className(), ['post_id' => 'id']);
     }
     
-    public function getCategories()
-    {
-        return $this->hasMany(Category::className(), ['category_id' => 'id'])->viaTable('post_category', ['post_id' => 'id']);
-    }
-    
     public function getImageurl()
     {
-        return \Yii::$app->request->BaseUrl.$this->featured_image;
+    return \Yii::$app->request->BaseUrl.$this->featured_image;
     }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 09, 2017 at 10:31 AM
+-- Generation Time: Nov 02, 2017 at 11:35 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -33,18 +33,11 @@ CREATE TABLE `category` (
   `name` varchar(255) NOT NULL,
   `image` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `parent_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) NOT NULL,
   `status` int(1) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `category`
---
-
-INSERT INTO `category` (`id`, `name`, `image`, `description`, `parent_id`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Category', 'uploads/logo.png', 'asdfasdasdas', NULL, 0, '2017-11-06 11:08:05', '2017-11-06 11:08:05');
 
 -- --------------------------------------------------------
 
@@ -145,53 +138,18 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`id`, `author_id`, `title`, `slug`, `excerpt`, `description`, `featured_image`, `status`, `published_at`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Test', 'test', 'Test test test test', 'Test test test test', 'uploads/dashboard.png', '1', '2017-10-31 12:00:00', '2017-11-02 10:35:03', '2017-11-02 10:56:03'),
-(2, 1, 'asd', 'asd', 'asd', 'asd', '', '1', '2017-11-08 12:00:00', '2017-11-09 07:22:16', '2017-11-09 07:22:16'),
-(3, 1, 'adasd', 'asdas', 'asd', 'asd', '', '1', '2017-11-09 07:25:33', '2017-11-09 07:25:42', '2017-11-09 07:25:42'),
-(4, 1, 'adasd', 'asdas', 'asd', 'asd', '', '1', '2017-11-09 07:25:33', '2017-11-09 07:29:29', '2017-11-09 07:29:29'),
-(5, 1, 'adasd', 'asdas', 'asd', 'asd', '', '1', '2017-11-09 07:25:33', '2017-11-09 07:29:43', '2017-11-09 07:29:43'),
-(6, 1, 'adasd', 'asdas', 'asd', 'asd', '', '1', '2017-11-09 07:25:33', '2017-11-09 07:34:33', '2017-11-09 07:34:33'),
-(7, 1, 'adasd', 'asdas', 'asd', 'asd', '', '1', '2017-11-09 07:25:33', '2017-11-09 07:34:56', '2017-11-09 07:34:56'),
-(8, 1, 'adasd', 'asdas', 'asd', 'asd', '', '1', '2017-11-09 07:25:33', '2017-11-09 07:35:16', '2017-11-09 07:35:16'),
-(9, 1, 'Test', 'test', '1\r\n3123', 'sdfasdf', '', '1', '2017-11-09 08:37:25', '2017-11-09 08:38:24', '2017-11-09 08:38:24'),
-(10, 1, 'sa', 'dasd', 'asd', 'asd', '', '1', '2017-11-09 08:39:35', '2017-11-09 08:39:59', '2017-11-09 08:39:59'),
-(11, 1, 'sa', 'dasd', 'asd', 'asd', '', '1', '2017-11-09 08:39:35', '2017-11-09 08:43:04', '2017-11-09 08:43:04'),
-(12, 1, 'asd', 'asd', 'asd', 'asd', '', '1', '2017-11-09 08:50:53', '2017-11-09 08:51:01', '2017-11-09 08:51:01'),
-(13, 1, 'ad', 'asd', '', '', '', 'asdas', '2017-11-09 10:17:51', '2017-11-09 10:20:15', '2017-11-09 10:20:15'),
-(14, 0, 'asd', 'asd', 'asd', 'asd', '', '1', '2017-11-09 10:20:44', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(15, 0, 'asd', 'asd', 'asd', 'asd', '', '1', '2017-11-09 10:20:44', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(16, 0, 'asd', 'asd', 'ads', 'asd', '', 'asddas', '2017-11-09 10:23:45', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(17, 1, 'asd', 'asdasdas', 'asd', 'asd', '', '1', '2017-11-09 10:25:14', '2017-11-09 10:25:45', '2017-11-09 10:25:45');
+(1, 1, 'Test', 'test', 'Test test test test', 'Test test test test', 'uploads/dashboard.png', '1', '2017-10-31 12:00:00', '2017-11-02 10:35:03', '2017-11-02 10:56:03');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `post_category`
+-- Table structure for table `post_to_category`
 --
 
-CREATE TABLE `post_category` (
+CREATE TABLE `post_to_category` (
   `id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `post_category`
---
-
-INSERT INTO `post_category` (`id`, `post_id`, `category_id`) VALUES
-(1, 17, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `post_tag`
---
-
-CREATE TABLE `post_tag` (
-  `id` int(11) NOT NULL,
-  `post_id` int(11) NOT NULL,
-  `tag_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -240,21 +198,6 @@ CREATE TABLE `social_account` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tag`
---
-
-CREATE TABLE `tag` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `token`
 --
 
@@ -292,7 +235,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `auth_key`, `confirmed_at`, `unconfirmed_email`, `blocked_at`, `registration_ip`, `created_at`, `updated_at`, `flags`, `last_login_at`) VALUES
-(1, 'naveen', 'naveen@mail.com', '$2y$10$L6ahkAKp4WCrV7rMFLAfnei60w6EYZ83nnQxFNl3QK.GzUkXc4r9q', '3VSx_vjGVLMyPJVxEp6lEfixsHSnPm3p', 1509090326, NULL, NULL, '::1', 1505207596, 1505207596, 0, 1510219069);
+(1, 'naveen', 'naveen@mail.com', '$2y$10$L6ahkAKp4WCrV7rMFLAfnei60w6EYZ83nnQxFNl3QK.GzUkXc4r9q', '3VSx_vjGVLMyPJVxEp6lEfixsHSnPm3p', 1509090326, NULL, NULL, '::1', 1505207596, 1505207596, 0, 1509601067);
 
 --
 -- Indexes for dumped tables
@@ -331,20 +274,12 @@ ALTER TABLE `posts`
   ADD KEY `author_id` (`author_id`);
 
 --
--- Indexes for table `post_category`
+-- Indexes for table `post_to_category`
 --
-ALTER TABLE `post_category`
+ALTER TABLE `post_to_category`
   ADD PRIMARY KEY (`id`),
   ADD KEY `post_id` (`post_id`),
   ADD KEY `category_id` (`category_id`);
-
---
--- Indexes for table `post_tag`
---
-ALTER TABLE `post_tag`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `post_id` (`post_id`),
-  ADD KEY `tag_id` (`tag_id`);
 
 --
 -- Indexes for table `profile`
@@ -383,7 +318,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `country`
 --
@@ -398,16 +333,11 @@ ALTER TABLE `county`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
---
--- AUTO_INCREMENT for table `post_category`
---
-ALTER TABLE `post_category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `post_tag`
+-- AUTO_INCREMENT for table `post_to_category`
 --
-ALTER TABLE `post_tag`
+ALTER TABLE `post_to_category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `social_account`
@@ -430,11 +360,11 @@ ALTER TABLE `county`
   ADD CONSTRAINT `country_county` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `post_category`
+-- Constraints for table `post_to_category`
 --
-ALTER TABLE `post_category`
-  ADD CONSTRAINT `category_relation` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
-  ADD CONSTRAINT `post_relation` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`);
+ALTER TABLE `post_to_category`
+  ADD CONSTRAINT `post_to_category_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `post_to_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `profile`
