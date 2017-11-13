@@ -18,10 +18,10 @@ use app\models\Category;
     <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(Category::find()->orderBy("id")->all(), 'id', 'name'),['prompt'=>'Select...']); ?>
-
+    
     <?= $form->field($model, 'excerpt')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'description')->widget(\yii\redactor\widgets\Redactor::className()) ?>
 
     <?= $form->field($model, 'upload')->fileInput(); ?>
 

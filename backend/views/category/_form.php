@@ -15,8 +15,8 @@ use yii\helpers\ArrayHelper;
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     
     <?= $form->field($model, 'cat_image')->fileInput(); ?>
-
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    
+    <?= $form->field($model, 'description')->widget(\yii\redactor\widgets\Redactor::className()) ?>
     
     <?= $form->field($model, 'parent_id')->dropDownList(ArrayHelper::map($categories, 'id', 'name'),['prompt'=>'Select...']); ?>
 
